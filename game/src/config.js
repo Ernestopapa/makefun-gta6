@@ -1,61 +1,36 @@
-// Every tuning number and colour in one place. The playfield is a fixed 1280x720 logical area;
-// the renderer scales it to the window, so no rule below depends on the screen size.
+// Shared small helpers and the sun-soaked Solmar Bay palette.
+export const TAU = Math.PI * 2;
 
-export const FIELD = { width: 1280, height: 720, groundY: 664 };
+export function clamp(v, min, max) {
+  return v < min ? min : v > max ? max : v;
+}
 
-/** The simulation's fixed step, in seconds: 60 updates a second whatever the display's rate. */
-export const STEP = 1 / 60;
-
-export const PLAYER = {
-  width: 72,
-  height: 24,
-  speed: 560,
-  invulnerable: 1.5,
-};
-
-export const LIVES = 3;
-
-export const BLOCK = {
-  minWidth: 40,
-  maxWidth: 110,
-  height: 36,
-  speed: 240,
-  speedPerLevel: 30,
-  speedJitter: 90,
-  interval: 0.55,
-  intervalScale: 0.88,
-  minInterval: 0.14,
-  dodgePoints: 1,
-};
-
-export const COIN = {
-  size: 24,
-  speed: 190,
-  speedPerLevel: 14,
-  interval: 1.4,
-  intervalJitter: 0.8,
-  points: 10,
-};
-
-/** Seconds of play per level, and the last level: speeds and spawn rates stop growing there. */
-export const LEVEL = { seconds: 12, max: 12 };
-
-/** How many falling things can exist at once; the pool is allocated once, at boot. */
-export const POOL_SIZE = 64;
+// Shortest signed turn from heading `from` to heading `to`, in radians.
+export function angleDiff(to, from) {
+  let d = (to - from) % TAU;
+  if (d > Math.PI) d -= TAU;
+  if (d < -Math.PI) d += TAU;
+  return d;
+}
 
 export const PALETTE = {
-  backdrop: '#11141b',
-  sky: '#1b1f2a',
-  ground: '#2a3040',
-  player: '#4fc3f7',
-  block: '#e5534b',
-  coin: '#f2c94c',
-  panel: '#252b38',
-  text: '#eef1f5',
-  muted: '#8b93a3',
+  ground: '#cdbd97',
+  grass: '#86b364',
+  grassDark: '#74a355',
+  parkPath: '#d9cba0',
+  water: '#39a0c2',
+  waterDeep: '#2b7f9e',
+  sand: '#ecd9a4',
+  road: '#55545c',
+  roadLine: '#d9d2b8',
+  dash: '#e8e0c0',
+  sidewalk: '#b3a888',
+  tree: '#4f8f4a',
+  treeDark: '#3c7a38',
+  trunk: '#7a5a38',
+  palm: '#5da24e',
+  roofLine: 'rgba(0,0,0,0.28)',
+  glass: '#20242e',
+  skin: ['#e8b88a', '#c98d5f', '#8a5a3b', '#f0c8a0'],
+  shirt: ['#d96a7f', '#3f6fb5', '#e0a13c', '#7fae5a', '#8a6fb5', '#e07856', '#dfe3e6', '#5f8f6b'],
 };
-
-export const FONT = 'system-ui, -apple-system, "Segoe UI", sans-serif';
-
-/** Where the best score is kept between visits (this browser only). */
-export const BEST_KEY = 'block-dodger.best';
